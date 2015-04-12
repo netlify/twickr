@@ -1,0 +1,8 @@
+{
+  "consumerKey": "TWITTER CONSUMER KEY",
+  "consumerSecret": "TWITTER CONSUMER SECRET",
+  "accessToken": "TWITTER ACCESS TOKEN",
+  "accessSecret": "TWITTER ACCESS SECRET",
+  "slackWebhook": "SLACK INCOMING WEBHOOK",
+  "keywords": "keywords,your want,to track"
+}

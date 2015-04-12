@@ -1,0 +1,22 @@
+{
+	"ArtifactsDest": "build",
+	"Arch": "386,amd64",
+	"Os": "darwin,linux,windows",
+	"PackageVersion": "1.0.0",
+	"ConfigVersion": "0.9",
+	"TaskSettings": {
+		"pkg-build": {
+			"metadata": {
+				"description": "Send interesting tweets from Twitter to Slack",
+				"maintainer": "Mathias Biilmann (http://mathias-biilmann.net)"
+			},
+			"metadata-deb": {
+				"Depends": "",
+				"Homepage": "https://github.com/netlify/twickr"
+			}
+		}
+	},
+	"Resources": {
+      "Include": "README,config.example.json"
+  }
+}
