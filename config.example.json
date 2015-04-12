@@ -4,5 +4,6 @@
   "accessToken": "TWITTER ACCESS TOKEN",
   "accessSecret": "TWITTER ACCESS SECRET",
   "slackWebhook": "SLACK INCOMING WEBHOOK",
+  "slackChannel": "OPTIONAL SLACK CHANNEL TO SEND TO",
   "keywords": "keywords,your want,to track"
 }

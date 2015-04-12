@@ -20,13 +20,15 @@ type Config struct {
 	AccessToken    string `json:"accessToken"`
 	AccessSecret   string `json:"accessSecret"`
 	SlackWebhook   string `json:"slackWebhook"`
+	SlackChannel   string `json:"slackChannel"`
 	Keywords       string `json:"keywords"`
 }
 
 // SlackMsg represents a message sent to Slack over a webhook
 type SlackMsg struct {
-	User string `json:"username"`
-	Text string `json:"text"`
+	User    string  `json:"username"`
+	Text    string  `json:"text"`
+	Channel *string `json:"channel"`
 }
 
 func init() {
@@ -44,8 +46,9 @@ func decode(conn *twitterstream.Connection) {
 	for {
 		if tweet, err := conn.Next(); err == nil {
 			msg := &SlackMsg{
-				User: tweet.User.ScreenName,
-				Text: "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdString,
+				User:    tweet.User.ScreenName,
+				Text:    "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdString,
+				Channel: &config.SlackChannel,
 			}
 			b, err := json.Marshal(msg)
 			if err != nil {

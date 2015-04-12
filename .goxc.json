@@ -17,6 +17,6 @@
 		}
 	},
 	"Resources": {
-      "Include": "README,config.example.json"
+      "Include": "README,LICENSE,config.example.json"
   }
 }
