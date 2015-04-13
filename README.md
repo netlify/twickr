@@ -29,7 +29,7 @@ Before you can run Twickr, you need to setup a [Twitter application](https://app
 Create a `config.json` file in the same folder as the twickr executable. An example configuration file is included in the download.
 
 1. Fill in the credentials for your new Twitter app and the URL from your Slack webhook.
-2. Optinally specify a specific channel to send Twickr messages to
+2. Optionally specify which channel to send Twickr messages to
 3. Enter a coma-separated list of keywords you want Twickr to keep an eye on
 
 ## Running
