@@ -6,7 +6,7 @@ Twickr connects to Twitter and listens for keywords you're interested in. Whenev
 
 ## Installation
 
-Download the relevant release for the server you'll want to run Twickr on and extract the files.
+Download the relevant release for your server's OS and architecture and extract the files.
 
 [Twickr Downloads](https://github.com/netlify/twickr/releases)
 
