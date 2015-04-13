@@ -32,6 +32,7 @@ type SlackMsg struct {
 }
 
 func init() {
+	config = &Config{}
 	data, err := ioutil.ReadFile("config.json")
 	if err != nil {
 		log.Fatalf("Error reading configuration: %v", err)
@@ -76,7 +77,7 @@ func main() {
 	for {
 		conn, err := client.Track(config.Keywords)
 		if err != nil {
-			log.Println("Tracking failed, sleeping for 1 minute")
+			log.Printf("Tracking failed, sleeping for 1 minute: %v", err)
 			time.Sleep(1 * time.Minute)
 			continue
 		}
