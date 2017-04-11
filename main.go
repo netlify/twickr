@@ -73,7 +73,7 @@ func createMessage(tweet *twitterstream.Tweet) *SlackMsg {
 	att := attachment{
 		"color":       "grey",
 		"author_icon": tweet.User.ProfileImageUrlHttps,
-		"author_name": fmt.Sprintf("%s @%s", tweet.User.ProfileImageUrlHttps, tweet.User.Name, tweet.User.ScreenName),
+		"author_name": fmt.Sprintf("%s @%s", tweet.User.Name, tweet.User.ScreenName),
 		"author_link": fmt.Sprintf("https://twitter.com/%s", tweet.User.ScreenName),
 		"text":        tweet.Text,
 	}
