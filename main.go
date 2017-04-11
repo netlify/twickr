@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,11 +25,14 @@ type Config struct {
 	Keywords       string `json:"keywords"`
 }
 
+type attachment map[string]string
+
 // SlackMsg represents a message sent to Slack over a webhook
 type SlackMsg struct {
-	User    string  `json:"username"`
-	Text    string  `json:"text"`
-	Channel *string `json:"channel"`
+	User        string       `json:"username"`
+	Text        string       `json:"text"`
+	Channel     *string      `json:"channel"`
+	Attachments []attachment `json:"attachments"`
 }
 
 func init() {
@@ -46,11 +50,7 @@ func init() {
 func decode(conn *twitterstream.Connection) {
 	for {
 		if tweet, err := conn.Next(); err == nil {
-			msg := &SlackMsg{
-				User:    tweet.User.ScreenName,
-				Text:    "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdString,
-				Channel: &config.SlackChannel,
-			}
+			msg := createMessage(tweet)
 			b, err := json.Marshal(msg)
 			if err != nil {
 				log.Printf("Error encoding json for tweet: %v %v\n", tweet, err)
@@ -64,6 +64,29 @@ func decode(conn *twitterstream.Connection) {
 			log.Printf("Failed decoding tweet: %s", err)
 			return
 		}
+	}
+}
+
+func createMessage(tweet *twitterstream.Tweet) *SlackMsg {
+	text := "https://twitter.com/" + tweet.User.IdStr + "/status/" + tweet.IdString
+
+	att := attachment{
+		"color":       "grey",
+		"author_icon": tweet.User.ProfileImageUrlHttps,
+		"author_name": fmt.Sprintf("%s @%s", tweet.User.ProfileImageUrlHttps, tweet.User.Name, tweet.User.ScreenName),
+		"author_link": fmt.Sprintf("https://twitter.com/%s", tweet.User.ScreenName),
+		"text":        tweet.Text,
+	}
+
+	if len(tweet.Entities.Media) > 0 {
+		att["image_url"] = tweet.Entities.Media[0].SecureMediaUrl
+	}
+
+	return &SlackMsg{
+		User:        tweet.User.ScreenName,
+		Text:        text,
+		Attachments: []attachment{att},
+		Channel:     &config.SlackChannel,
 	}
 }
 
