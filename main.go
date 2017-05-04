@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"strings"
 
 	"github.com/darkhelmet/twitterstream"
 )
@@ -16,13 +17,14 @@ var config *Config
 
 // Config holds all the configuration data
 type Config struct {
-	ConsumerKey    string `json:"consumerKey"`
-	ConsumerSecret string `json:"consumerSecret"`
-	AccessToken    string `json:"accessToken"`
-	AccessSecret   string `json:"accessSecret"`
-	SlackWebhook   string `json:"slackWebhook"`
-	SlackChannel   string `json:"slackChannel"`
-	Keywords       string `json:"keywords"`
+	ConsumerKey      string `json:"consumerKey"`
+	ConsumerSecret   string `json:"consumerSecret"`
+	AccessToken      string `json:"accessToken"`
+	AccessSecret     string `json:"accessSecret"`
+	SlackWebhook     string `json:"slackWebhook"`
+	SlackChannel     string `json:"slackChannel"`
+	Keywords         string `json:"keywords"`
+	KeywordsIgnored  string `json:"keywordsIgnored"`
 }
 
 type attachment map[string]string
@@ -50,6 +52,9 @@ func init() {
 func decode(conn *twitterstream.Connection) {
 	for {
 		if tweet, err := conn.Next(); err == nil {
+			if !testIgnoredKeywords(tweet.Text) {
+				continue
+			}
 			msg := createMessage(tweet)
 			b, err := json.Marshal(msg)
 			if err != nil {
@@ -65,6 +70,18 @@ func decode(conn *twitterstream.Connection) {
 			return
 		}
 	}
+}
+
+func testIgnoredKeywords(tweetText string) bool {
+	if config.KeywordsIgnored != "" {
+		for _, keyword := range strings.Split(config.KeywordsIgnored, ",") {
+			if strings.Contains(tweetText, keyword) {
+				log.Printf("Tweet contained ignored keyword: %s", keyword)
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func createMessage(tweet *twitterstream.Tweet) *SlackMsg {
