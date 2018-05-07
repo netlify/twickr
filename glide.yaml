@@ -1,0 +1,3 @@
+package: github.com/netlify/twickr
+import:
+- package: github.com/darkhelmet/twitterstream

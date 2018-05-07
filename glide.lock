@@ -1,0 +1,14 @@
+hash: addc551c0abd74ac6ad6160a20987b2a0b1dc18f28e58e5ed3ec0daa3f0a51c2
+updated: 2018-05-07T17:58:49.92964+02:00
+imports:
+- name: github.com/darkhelmet/twitterstream
+  version: 0a79e05b284c9a009c99f6f7d79a188c78f5623b
+- name: github.com/garyburd/go-oauth
+  version: bca2e7f09a178fd36b034107a00e2323bca6a82e
+  subpackages:
+  - oauth
+- name: golang.org/x/net
+  version: 4b14673ba32bee7f5ac0f990a48f033919fd418b
+  subpackages:
+  - context
+testImports: []
